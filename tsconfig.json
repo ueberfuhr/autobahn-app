@@ -2,6 +2,16 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      /* include barrels here */
+      "@app/environment": [
+        "environments/index.ts"
+      ],
+      "@app/autobahn": [
+        "app/roadworks/index.ts"
+      ]
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
