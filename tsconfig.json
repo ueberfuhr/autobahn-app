@@ -6,10 +6,19 @@
     "paths": {
       /* include barrels here */
       "@app/environment": [
-        "environments/index.ts"
+        "environments"
       ],
-      "@app/autobahn": [
-        "app/roadworks/index.ts"
+      "@app/layout": [
+        "app/layout"
+      ],
+      "@autobahn/roads": [
+        "app/roads"
+      ],
+      "@autobahn/roadworks": [
+        "app/roadworks"
+      ],
+      "@autobahn/webcams": [
+        "app/webcams"
       ]
     },
     "outDir": "./dist/out-tsc",

@@ -8,11 +8,12 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {map, shareReplay} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {RouterLink, RouterOutlet} from '@angular/router';
 
 @Component({
-  selector: 'app-side-navigation',
-  templateUrl: './side-navigation.component.html',
-  styleUrls: ['./side-navigation.component.scss'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
   standalone: true,
   imports: [
     MatToolbarModule,
@@ -22,9 +23,11 @@ import {Observable} from 'rxjs';
     MatIconModule,
     AsyncPipe,
     NgOptimizedImage,
+    RouterOutlet,
+    RouterLink,
   ]
 })
-export class SideNavigationComponent {
+export class DashboardComponent {
   private breakpointObserver = inject(BreakpointObserver);
 
   isExpandedByButton = false;

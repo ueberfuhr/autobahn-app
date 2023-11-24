@@ -1,15 +1,12 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import {ListRoadworksComponent} from "./roadworks/components/list-roadworks.component";
-import {AutobahnDashboardComponent} from './layout/autobahn-dashboard/autobahn-dashboard.component';
-import {MatIconRegistry} from '@angular/material/icon';
-import {DomSanitizer} from '@angular/platform-browser';
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RoadworksRoadListComponent} from "@autobahn/roadworks";
+import {DashboardComponent} from '@app/layout';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ListRoadworksComponent, AutobahnDashboardComponent],
+  imports: [CommonModule, RoadworksRoadListComponent, DashboardComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

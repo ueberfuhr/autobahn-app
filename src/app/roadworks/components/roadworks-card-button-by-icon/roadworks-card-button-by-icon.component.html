@@ -1,0 +1,17 @@
+@if(filteredRoadworks.length > 0) {
+
+  <button mat-button
+      title="Zeige alle aktuellen {{title}}"
+      [matBadge]="filteredRoadworks.length"
+      matBadgeDescription="{{filteredRoadworks.length}} Meldung{{filteredRoadworks.length == 1 ? '' : 'en'}}"
+      matBadgeColor="warn"
+      matBadgeSize="small"
+      (click)="displayDetails()"
+  >
+    <mat-icon
+      aria-hidden="true"
+      [svgIcon]="icon! | maticon"
+    ></mat-icon>
+  </button>
+
+}

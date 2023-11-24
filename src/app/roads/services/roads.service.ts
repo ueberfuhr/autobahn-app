@@ -1,16 +1,14 @@
 import {inject, Injectable} from '@angular/core';
 import {API_ENDPOINT_URL_BUILDER} from '@app/environment';
-import {map, Observable} from "rxjs";
 import {HttpClient} from '@angular/common/http';
+import {map, Observable} from 'rxjs';
 import {Road} from '@autobahn/roads';
-import {Roadwork} from '@autobahn/roadworks';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoadworksService {
+export class RoadsService {
 
-  // just for demonstration, not my preferred solution!
   private readonly apiEndpoint = inject(API_ENDPOINT_URL_BUILDER);
 
   constructor(
@@ -18,16 +16,16 @@ export class RoadworksService {
   ) {
   }
 
-  getRoadworks(road: Road): Observable<Roadwork[]> {
+  getRoads(): Observable<Road[]> {
     return this.httpClient
-      .get<RoadWorksResponse>(this.apiEndpoint(`/${encodeURIComponent(road)}/services/roadworks`))
+      .get<RoadsResponse>(this.apiEndpoint(''))
       .pipe(
-        map(response => response.roadworks)
+        map(response => response.roads)
       )
   }
 
 }
 
-interface RoadWorksResponse {
-  roadworks: Roadwork[]
+interface RoadsResponse {
+  roads: Road[];
 }
