@@ -1,0 +1,9 @@
+<c-col class="mb-sm-2 mb-0">
+  <div class="text-medium-emphasis">
+    @if(icon) {
+      <img ngSrc="assets/vz/{{icon}}.svg" alt="" height="16" width="16">
+    }
+    {{title}}
+  </div>
+  <strong>{{(filteredRoadworks$ | async)?.length || '---'}}</strong>
+</c-col>

@@ -1,30 +1,54 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav
-               class="sidenav"
-               fixedInViewport
-               role="navigation"
-               [mode]="(isExpanded$ | async) === true ? 'side' : 'over'"
-               [opened]="(isExpanded$ | async) === true"
-  >
-    <mat-toolbar color="primary">
-      <img ngSrc="assets/icons8-autobahn-48.png" width="36" height="36" alt="Sign of Autobahn">
-      Autobahn
-    </mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item routerLink="roadworks">Baustellen</a>
-      <a mat-list-item routerLink="webcams">Webcams</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content class="content">
-    @if((isExpanded$ | async) === false) {
-      <mat-toolbar color="primary">
-        <a mat-button (click)="sidenav.toggle(true)">
-          <mat-icon>menu</mat-icon>
-        </a>
-        <span>Autobahn</span>
-        <img ngSrc="assets/icons8-autobahn-48.png" width="36" height="36" alt="Sign of Autobahn">
-      </mat-toolbar>
-    }
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<c-sidebar
+  #sidebar="cSidebar"
+  id="sidebar"
+  class="d-print-none sidebar sidebar-fixed"
+  visible
+>
+
+  <c-sidebar-brand
+    [brandFull]="{
+      src: 'assets/brands/full.png',
+      width: 250,
+      height: 100,
+      alt: 'Brand Logo'
+    }"
+    [brandNarrow]="{
+      src: 'assets/brands/narrow.png',
+      width: 48,
+      height: 48,
+      alt: 'Brand Logo'
+    }"
+    routerLink="./"
+  />
+
+  <ng-scrollbar pointerEventsMethod="scrollbar">
+    <c-sidebar-nav
+      [navItems]="(navigationEntries$ | async)!"
+      dropdownMode="close"
+    />
+  </ng-scrollbar>
+  @if(!sidebar.narrow) {
+    <c-sidebar-toggler
+      toggle="unfoldable"
+      cSidebarToggle="sidebar"
+    />
+  }
+</c-sidebar>
+
+<!--main-->
+<div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
+  <!--app-header-->
+  <app-dashboard-header
+    class="mb-4 d-print-none header header-sticky"
+    position="sticky"
+    sidebarId="sidebar" />
+  <!--app-body-->
+  <div class="body flex-grow-1 px-3">
+    <c-container breakpoint="lg" class="h-auto">
+      <router-outlet />
+    </c-container>
+  </div>
+  <!--app footer-->
+  <!--app-default-footer / -->
+</div>
+

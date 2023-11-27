@@ -1,16 +1,32 @@
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {ApplicationConfig} from '@angular/core';
+import {
+  provideRouter,
+  withEnabledBlockingInitialNavigation,
+  withHashLocation,
+  withInMemoryScrolling
+} from '@angular/router';
 
-import { routes } from './app.routes';
+import {routes} from './app.routes';
 import {provideHttpClient} from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import {provideRoadworkIcons} from '@autobahn/roadworks';
+import {Title} from '@angular/platform-browser';
+import {IconSetService} from '@coreui/icons-angular';
+import {provideRoadsForNavigation} from '@app/layout';
+import {provideAnimations} from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes,
+     withHashLocation(),
+     withEnabledBlockingInitialNavigation(),
+     withInMemoryScrolling({
+       scrollPositionRestoration: 'top',
+       anchorScrolling: 'enabled'
+     })
+    ),
     provideHttpClient(),
     provideAnimations(),
-    provideRoadworkIcons()
+    provideRoadsForNavigation(),
+    IconSetService,
+    Title
 ]
 };

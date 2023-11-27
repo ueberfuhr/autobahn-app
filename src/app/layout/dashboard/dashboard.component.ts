@@ -1,41 +1,43 @@
-import {Component, inject} from '@angular/core';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {AsyncPipe, NgOptimizedImage} from '@angular/common';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon';
-import {map, shareReplay} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {Component, Inject} from '@angular/core';
+import {NAVIGATION_PROVIDER, NavigationProvider} from '../../app.navigation';
+import {merge, Observable} from 'rxjs';
+import {ContainerComponent, INavData, SidebarModule} from '@coreui/angular';
+import {AsyncPipe} from '@angular/common';
+import {NgScrollbar} from 'ngx-scrollbar';
+import {RouterOutlet} from '@angular/router';
+import {DashboardHeaderComponent} from '../dashboard-header/dashboard-header.component';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
   standalone: true,
+  templateUrl: './dashboard.component.html',
   imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
     AsyncPipe,
-    NgOptimizedImage,
+    NgScrollbar,
+    SidebarModule,
+    ContainerComponent,
     RouterOutlet,
-    RouterLink,
-  ]
+    DashboardHeaderComponent
+  ],
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  private breakpointObserver = inject(BreakpointObserver);
 
-  isExpandedByButton = false;
-  isExpanded$ =
-    this.breakpointObserver
-    .observe(Breakpoints.Web)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  public readonly navigationEntries$: Observable<INavData[]>;
+
+  constructor(
+    @Inject(NAVIGATION_PROVIDER) navigationProviders: NavigationProvider[]
+  ) {
+    const navigationEntriesObservables = navigationProviders
+      .sort(byOrder)
+      .map(p => p.findNavigationItems());
+    this.navigationEntries$ = merge(...navigationEntriesObservables);
+  }
+
+
+}
+
+const byOrder = (p1: NavigationProvider, p2: NavigationProvider) => {
+  const result = p1.order - p2.order;
+  return result !== 0 ? result : 1;
 }

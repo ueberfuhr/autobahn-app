@@ -1,0 +1,26 @@
+<h3>{{road()}}</h3>
+
+@switch (roadState) {
+  @case ("not-found") {
+    <c-widget-stat-a
+      class="mb-4"
+      color="danger"
+    >
+      <ng-template cTemplateId="widgetValueTemplate">
+        <div class="fs-6 fw-normal mb-3">
+          <svg cIcon name="cilWarning"></svg>
+          Die Autobahn {{road()}} existiert nicht im Datenbestand.
+        </div>
+      </ng-template>
+    </c-widget-stat-a>
+  }
+  @case ("found") {
+    <app-dashboard-road-index-roadworks [road]="road()!"></app-dashboard-road-index-roadworks>
+  }
+  @default {
+    <div class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+      <i class="spinner-grow spinner-grow-sm"></i>
+      <span class="m-1">Loading...</span>
+    </div>
+  }
+}

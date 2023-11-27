@@ -1,10 +1,34 @@
 import {Routes} from '@angular/router';
-import {DashboardIndexComponent} from '@app/layout';
-import {RoadworksIndexComponent} from '@autobahn/roadworks';
-import {WebcamsIndexComponent} from '@autobahn/webcams';
+import {DashboardComponent, DashboardIndexComponent, DashboardRoadIndexComponent} from '@app/layout';
 
 export const routes: Routes = [
-  {path: '', component: DashboardIndexComponent, pathMatch: 'full'},
-  {path: 'roadworks', component: RoadworksIndexComponent, pathMatch: 'full'},
-  {path: 'webcams', component: WebcamsIndexComponent, pathMatch: 'full'}
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
+    component: DashboardComponent,
+    data: {
+      title: 'Home'
+    },
+    children: [
+      {
+        path: 'home',
+        pathMatch: 'full',
+        component: DashboardIndexComponent,
+        data: {
+          title: 'Dashboard'
+        },
+      },
+      {
+        path: 'roads/:road',
+        component: DashboardRoadIndexComponent,
+        data: {
+          title: 'Autobahn-Details zur :road'
+        },
+      }
+    ]
+  }
 ];

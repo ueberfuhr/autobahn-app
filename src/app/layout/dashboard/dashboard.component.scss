@@ -1,7 +1,7 @@
-.sidenav-container {
-  height: 100%;
-}
-
-.sidenav {
-  width: 200px;
+:host {
+  ng-scrollbar {
+    --scrollbar-thumb-color: var(--cui-border-color, #999);
+    --scrollbar-track-color: var(--cui-body-color, #fff);
+    --scrollbar-hover-size: calc(var(--scrollbar-size) * 1.5);
+  }
 }

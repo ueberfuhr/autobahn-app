@@ -7,6 +7,9 @@ export interface Environment {
 
   apiEndpoint: string
   stage: Stage
+  ui: {
+    title: string
+  }
 
 }
 
