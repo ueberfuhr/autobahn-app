@@ -1,4 +1,4 @@
-export namespace Roadwork {
+export namespace RoadInfo {
 
   /**
    * Sinnbild, das die Art des Eintrags beschreibt. Größtenteils sind diese dem offiziellen Verkehrszeichenkatalog
@@ -23,17 +23,14 @@ export namespace Roadwork {
     'SHORT_TERM_ROADWORKS' | 'ELECTRIC_CHARGING_STATION'
 }
 
-export interface Roadwork {
+export interface RoadInfo {
   coordinate: {
     lat: number,
     long: number
   },
-  icon: Roadwork.Icon,
-  isBlocked: boolean,
-  description: string[],
   title: string,
-  display_type: Roadwork.DisplayType,
-  future: false,
-  subtitle: string,
-  startTimestamp: Date
+  description: string[],
+  icon: RoadInfo.Icon,
+  display_type: RoadInfo.DisplayType,
+  subtitle: string
 }

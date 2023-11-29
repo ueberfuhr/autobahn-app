@@ -7,4 +7,3 @@ export const environment: Environment = {
     title: 'Autobahn App (Dev)'
   }
 }
-

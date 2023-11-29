@@ -1,6 +1,18 @@
-<h3>{{road()}}</h3>
+<h3>
+  @if(roadDetails?.previous) {
+  <a [routerLink]="['/roads',encodeURIComponent(roadDetails?.previous || '')]">
+    <svg cIcon name="cilArrowCircleLeft" />
+  </a>
+  }
+  {{road()}}
+  @if(roadDetails?.next) {
+  <a [routerLink]="['/roads',encodeURIComponent(roadDetails?.next || '')]">
+    <svg cIcon name="cilArrowCircleRight" />
+  </a>
+  }
+</h3>
 
-@switch (roadState) {
+@switch (roadState()) {
   @case ("not-found") {
     <c-widget-stat-a
       class="mb-4"
@@ -15,7 +27,7 @@
     </c-widget-stat-a>
   }
   @case ("found") {
-    <app-dashboard-road-index-roadworks [road]="road()!"></app-dashboard-road-index-roadworks>
+    <app-dashboard-road-index-road-events [road]="road()!"></app-dashboard-road-index-road-events>
   }
   @default {
     <div class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">

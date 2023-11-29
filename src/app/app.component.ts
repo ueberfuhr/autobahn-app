@@ -1,6 +1,4 @@
-import {Component, Inject} from '@angular/core';
-import {Environment, ENVIRONMENT} from '@app/environment';
-import {Title} from '@angular/platform-browser';
+import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {IconSetService} from '@coreui/icons-angular';
 import {iconSubset} from './icons/icon-subset';
@@ -16,12 +14,9 @@ import {iconSubset} from './icons/icon-subset';
 export class AppComponent {
 
   constructor(
-    @Inject(ENVIRONMENT) private readonly environment : Environment,
-    readonly titleService : Title,
     readonly iconSetService: IconSetService
   ) {
-    titleService.setTitle(environment.ui.title);
-    iconSetService.icons = { ...iconSubset };
+    iconSetService.icons = {...iconSubset};
   }
 
 }

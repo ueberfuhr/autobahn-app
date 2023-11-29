@@ -1,0 +1,41 @@
+<c-card class="mb-4">
+  <c-card-body>
+    <c-row>
+      <c-col sm="5">
+        <h4 class="card-title mb-0" id="traffic">Aktuelle Verkehrsmeldungen</h4>
+        <div class="small text-medium-emphasis">
+          {{fetchTime | date:'dd.MM.yyyy HH:mm'}}h
+        </div>
+      </c-col>
+      <c-col class="d-none d-md-block" sm="7">
+        <button cButton class="float-end" color="primary" (click)="refresh()">
+          <svg cIcon name="cilReload"></svg>
+        </button>
+      </c-col>
+    </c-row>
+  </c-card-body>
+  <c-card-footer>
+    <c-row class="text-center" [md]="4" [xs]="1">
+      <app-dashboard-road-index-road-events-footer-card
+        title="Gefahren"
+        [icon]="RoadEvent.Icon.Gefahr"
+        [roadEvents$]="roadEvents$.warnings$"
+      ></app-dashboard-road-index-road-events-footer-card>
+      <app-dashboard-road-index-road-events-footer-card
+        title="Sperrungen"
+        [icon]="RoadEvent.Icon.Sperrung"
+        [roadEvents$]="roadEvents$.closures$"
+      ></app-dashboard-road-index-road-events-footer-card>
+      <app-dashboard-road-index-road-events-footer-card
+        title="Kurzzeitbaustellen"
+        [icon]="RoadEvent.Icon.Kurzzeitbaustelle"
+        [roadEvents$]="roadEvents$.roadworks$"
+      ></app-dashboard-road-index-road-events-footer-card>
+      <app-dashboard-road-index-road-events-footer-card
+        title="Baustellen"
+        [icon]="RoadEvent.Icon.Bauarbeiten"
+        [roadEvents$]="roadEvents$.roadworks$"
+      ></app-dashboard-road-index-road-events-footer-card>
+    </c-row>
+  </c-card-footer>
+</c-card>

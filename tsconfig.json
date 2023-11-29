@@ -14,12 +14,6 @@
       "@autobahn/roads": [
         "app/roads"
       ],
-      "@autobahn/roadworks": [
-        "app/roadworks"
-      ],
-      "@autobahn/webcams": [
-        "app/webcams"
-      ]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

@@ -59,9 +59,9 @@ const headerEntries : INavData[] = [
   }
 ];
 
-export function createNavigation(roadsService: RoadsService): NavigationProvider {
+export function createRoadsNavigation(roadsService: RoadsService): NavigationProvider {
   return {
-    order: 2,
+    order: 10,
     findNavigationItems: () => roadsService.getRoads()
       .pipe(
         map(roads => toNavigationEntries(roads)),
@@ -75,7 +75,7 @@ export function provideRoadsForNavigation(): EnvironmentProviders {
     {
       provide: NAVIGATION_PROVIDER,
       multi: true,
-      useFactory: createNavigation,
+      useFactory: createRoadsNavigation,
       deps: [RoadsService]
     }
   ])

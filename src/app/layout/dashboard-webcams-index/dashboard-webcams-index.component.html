@@ -1,0 +1,66 @@
+<h3>
+  Webcam-Suche
+</h3>
+
+@switch (searchState()) {
+@case ("uninitialized") {
+<c-widget-stat-a
+  class="mb-4"
+  color="info"
+>
+  <ng-template cTemplateId="widgetValueTemplate">
+    <div class="fs-6 fw-normal mb-3">
+      <p>
+        Starte die Suche über alle Autobahnen.
+      </p>
+      <button (click)="runSearch()" cButton color="primary">
+        Suche starten
+      </button>
+    </div>
+  </ng-template>
+</c-widget-stat-a>
+}
+@default {
+<c-card class="mb-4">
+  <c-card-body>
+    <c-row>
+        <h4 class="card-title mb-0" id="traffic">
+          Gefundene Webcams: {{(webcamSearchResult$ | async)?.length}}
+        </h4>
+    </c-row>
+    @if(searchState() === 'done') {
+    <c-row>
+      <button (click)="runSearch()" cButton color="primary">
+        Suche wiederholen
+      </button>
+    </c-row>
+    }
+    <c-row>
+      {{webcamSearchResult$ | async}}
+    </c-row>
+    @if(searchState() === 'pending') {
+    <c-row>
+      <div class="fade show">
+        <i class="spinner-grow spinner-grow-sm"></i>
+        <span class="m-1">Loading...</span>
+      </div>
+    </c-row>
+    }
+  </c-card-body>
+  @if(searchState() === 'pending') {
+  <c-card-footer>
+    <c-row class="text-center" [md]="1" [xs]="1">
+      <c-col class="mb-sm-2 mb-0">
+        <div class="text-medium-emphasis">Fortschritt:</div>
+        <strong>({{searchProgress().progressPercent}}%)</strong>
+          <c-progress class="mt-2" thin>
+            <c-progress-bar color="success" value="{{searchProgress().progressPercent}}"></c-progress-bar>
+          </c-progress>
+          </c-col>
+      </c-row>
+    </c-card-footer>
+  }
+</c-card>
+}
+}
+

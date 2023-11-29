@@ -1,3 +1,9 @@
 export * from './models/road.model';
+export * from './models/road-info-model';
+export * from './models/road-event-model';
 export * from './services/roads.service';
-
+export * from './services/roadworks.service';
+export * from './services/warnings.service';
+export * from './services/closures.service';
+export * from './services/composite-road-events.service';
+export * from './services/webcams.service';
