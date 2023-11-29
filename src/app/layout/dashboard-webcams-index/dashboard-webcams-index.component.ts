@@ -4,7 +4,7 @@ import {
   ButtonModule,
   CardModule,
   GridModule,
-  ProgressComponent, ProgressModule,
+  ProgressModule,
   TemplateIdDirective,
   WidgetStatAComponent
 } from '@coreui/angular';
