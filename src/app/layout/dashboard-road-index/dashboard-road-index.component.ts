@@ -1,13 +1,14 @@
-import {Component, effect, OnDestroy, OnInit, signal} from '@angular/core';
+import {Component, effect, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Road, RoadsService} from '@autobahn/roads';
 import {BreadcrumbRouterService, IBreadcrumbItem, SharedModule, WidgetModule} from '@coreui/angular';
-import {Subscription} from 'rxjs';
 import {IconModule} from '@coreui/icons-angular';
 import {
   DashboardRoadIndexRoadEventsComponent
 } from './dashboard-road-index-road-events/dashboard-road-index-road-events.component';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {take} from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-road-index',
@@ -23,12 +24,10 @@ import {
   templateUrl: './dashboard-road-index.component.html',
   styleUrl: './dashboard-road-index.component.scss'
 })
-export class DashboardRoadIndexComponent implements OnInit, OnDestroy {
+export class DashboardRoadIndexComponent implements OnInit {
 
   readonly road = signal<Road | null>(null);
-  roadDetails? : RoadDetails;
-  private routerSubscription?: Subscription;
-  private breadcrumbSubscription?: Subscription;
+  roadDetails?: RoadDetails;
   private lastBreadcrumbLabel?: string;
   private lastBreadcrumbItem?: IBreadcrumbItem;
 
@@ -46,15 +45,14 @@ export class DashboardRoadIndexComponent implements OnInit, OnDestroy {
         }
         this.roadsService
           .getRoads()
-          .subscribe({
-            next: roads => {
-              const index = roads.indexOf(roadValue);
-              this.roadDetails = {
-                current: index >= 0 ? roadValue : null,
-                previous: index > 0 ? roads[index - 1] : null,
-                next: index >= 0 && index < roads.length - 1 ? roads[index + 1] : null
-              };
-            }
+          .subscribe(roads => {
+            const index = roads.indexOf(roadValue);
+            this.roadDetails = {
+              current: index >= 0 ? roadValue : null,
+              previous: index > 0 ? roads[index - 1] : null,
+              next: index >= 0 && index < roads.length - 1 ? roads[index + 1] : null
+            };
+
           });
       }
     })
@@ -68,37 +66,33 @@ export class DashboardRoadIndexComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routerSubscription = this.route
+    this.route
       .params
+      .pipe(takeUntilDestroyed())
       .subscribe(params => {
         const road = params['road'];
         this.road.set(decodeURIComponent(road));
       });
-    this.routerService.breadcrumbs$.subscribe({
-      next: value => {
+    this.routerService
+      .breadcrumbs$
+      .pipe(take(1)) // only once
+      .subscribe(value => {
         if (value.length > 0) {
           // the last item is the current page
           this.lastBreadcrumbItem = value[value.length - 1];
           this.lastBreadcrumbLabel = this.lastBreadcrumbItem.label;
         }
-      }
-    }).unsubscribe();
-    // want to change the array to get change detection for breadcrumb compoent
-    this.breadcrumbSubscription = this.routerService.breadcrumbs$.subscribe({
-      next: value => {
+      })
+    // want to change the array to get change detection for breadcrumb component
+    this.routerService
+      .breadcrumbs$
+      .pipe(takeUntilDestroyed())
+      .subscribe(value => {
         // TODO don't understand why this works :)
         if (this.lastBreadcrumbItem && value.pop()) {
           value.push(this.lastBreadcrumbItem);
         }
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.routerSubscription?.unsubscribe();
-    this.routerSubscription = undefined;
-    this.breadcrumbSubscription?.unsubscribe()
-    this.breadcrumbSubscription = undefined;
+      });
   }
 
   protected readonly encodeURIComponent = encodeURIComponent;
